@@ -9,8 +9,7 @@
 backend:
   name: git-gateway
   branch: main
-  # 后续替换为 Netlify Identity 给你的 site_domain
-  # 例如: site_domain: flymacro-xxx.netlify.app
+  site_domain: splendid-valkyrie-76a467.netlify.app
 
 media_folder: static/images
 public_folder: /images

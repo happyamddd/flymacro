@@ -36,3 +36,17 @@ theme = 'flymacro'
     languageName = '简体中文'
     weight = 1
     contentDir = 'content/zh'
+
+  # 后续启用多语言时取消下方注释，并创建对应 content 目录
+  # [languages.en]
+  #   languageName = 'English'
+  #   weight = 2
+  #   contentDir = 'content/en'
+  # [languages.ko]
+  #   languageName = '한국어'
+  #   weight = 3
+  #   contentDir = 'content/ko'
+  # [languages.ja]
+  #   languageName = '日本語'
+  #   weight = 4
+  #   contentDir = 'content/ja'

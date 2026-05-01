@@ -6,8 +6,7 @@
 
 - **Hugo** - 静态网站生成器
 - **Cloudflare Pages** - 免费托管 + 全球 CDN
-- **Decap CMS** - 可视化内容管理后台
-- **Netlify Identity** - 免费用户认证
+- **本地生成工具** - `tools/macro-generator.html` 浏览器表单生成 Markdown
 
 ## 本地开发
 
@@ -36,21 +35,34 @@ flymacro/
 ├── static/               # 静态资源
 │   ├── downloads/        # 免费下载文件
 │   ├── images/           # 图片
-│   └── admin/            # Decap CMS 后台
+│   └── admin/            # Decap CMS 后台（已废弃）
+├── tools/                # 本地辅助工具
+│   └── macro-generator.html  # 宏包 Markdown 生成器（双击使用）
 └── hugo.toml             # 站点配置
 ```
 
 ## 内容管理
 
-### 方式一：VSCode + Git（推荐）
+### 方式一：本地宏包生成工具（推荐，最简单）
+
+双击打开 `tools/macro-generator.html`，通过下拉选项填写表单：
+
+1. **基础信息**：选择职业（13个职业下拉选项）、版本（下拉选项）、类型（免费/付费）
+2. **型号定价**（仅付费宏）：点击"+ 添加型号"，填写名称、价格、功能、购买链接
+3. **内容描述**：填写功能介绍、适用场景、使用说明
+4. 点击 **"生成 Markdown"**，然后 **"复制到剪贴板"**
+5. 在 VSCode 中新建文件，粘贴内容，保存到 `content/zh/macros/free/` 或 `content/zh/macros/premium/`
+6. 提交到 GitHub，Cloudflare Pages 自动构建发布
+
+### 方式二：VSCode 直接编辑
 
 直接在 `content/zh/` 目录下编辑 Markdown 文件，提交后 Cloudflare Pages 自动构建。
 
-### 方式二：Decap CMS 网页后台
+新建宏包时，可以复制已有文件作为模板，或使用 `archetypes/macro.md` 作为参考。
 
-访问 `https://你的域名/admin/`，使用 Netlify Identity 登录后可视化编辑内容。
+### 方式三：Decap CMS 网页后台（已废弃，不建议使用）
 
-**注意**：使用后台前需要先配置 Netlify Identity（见下方部署说明）。
+由于 Netlify Identity 在 Cloudflare Pages 上的兼容性问题，Decap CMS 后台已废弃。请使用方式一或方式二。
 
 ## 部署到 Cloudflare Pages
 
@@ -63,16 +75,23 @@ flymacro/
    - 环境变量: `HUGO_VERSION` = `0.152.2`
 5. 保存并部署
 
-## 配置 Decap CMS（可选）
+## 添加新宏包（快速步骤）
 
-1. 在 [netlify.com](https://netlify.com) 注册免费账号
-2. 创建一个新站点（只用于 Identity，不需要真正部署）
-3. Site settings → Identity → Enable Identity
-4. Identity → Settings → Registration → Invite only（推荐）
-5. Identity → Services → Git Gateway → Enable Git Gateway
-6. 复制 Git Gateway 的 Site domain
-7. 修改 `static/admin/config.yml` 中的 `backend.site_domain`
-8. 提交并推送，等待 Cloudflare Pages 重新构建
+1. 双击 `tools/macro-generator.html`，在浏览器中打开
+2. 填写表单（职业、专精、版本都从下拉选项中选择）
+3. 点击"生成 Markdown" → "复制到剪贴板"
+4. 在 VSCode 中，在 `content/zh/macros/free/` 或 `content/zh/macros/premium/` 目录下新建文件
+5. 文件名格式：`职业-专精-描述.md`（如：`priest-shadow-dps.md`）
+6. 粘贴内容，保存
+7. Git 提交并推送：
+
+```bash
+git add content/zh/macros/
+git commit -m "添加：牧师暗影输出宏"
+git push origin main
+```
+
+Cloudflare Pages 会自动构建并发布。
 
 ## 多语言
 

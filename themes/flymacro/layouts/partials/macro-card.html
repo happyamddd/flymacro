@@ -1,0 +1,17 @@
+<article class="macro-card">
+  {{ if .Params.preview_img }}
+  <div class="card-img">
+    <img src="{{ .Params.preview_img }}" alt="{{ .Title }}">
+  </div>
+  {{ end }}
+  <div class="card-body">
+    <h3><a href="{{ .RelPermalink }}">{{ .Title }}</a></h3>
+    <div class="meta">
+      {{ range .Params.classes }}<span class="tag class">{{ . }}</span>{{ end }}
+      {{ range .Params.specs }}<span class="tag spec">{{ . }}</span>{{ end }}
+      {{ range .Params.versions }}<span class="tag version">{{ . }}</span>{{ end }}
+      <span class="tag type type-{{ .Params.type }}">{{ if eq .Params.type "free" }}免费{{ else }}付费{{ end }}</span>
+    </div>
+    <p class="summary">{{ .Summary | default (substr .Content 0 80) }}...</p>
+  </div>
+</article>

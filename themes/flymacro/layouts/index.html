@@ -1,0 +1,46 @@
+{{ define "main" }}
+<section class="hero">
+  <div class="container">
+    <h1>{{ .Site.Params.home_title | default "为你的冒险找到最佳宏" }}</h1>
+    <p class="lead">{{ .Site.Params.description }}</p>
+    <div class="hero-actions">
+      <a href="/macros/" class="btn btn-primary">浏览宏库</a>
+      <a href="/guide/" class="btn btn-secondary">学习编写</a>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <h2>热门宏包</h2>
+    <div class="macro-grid">
+      {{ range first 6 (where .Site.RegularPages "Type" "macros") }}
+        {{ partial "macro-card.html" . }}
+      {{ end }}
+    </div>
+    <div class="section-footer">
+      <a href="/macros/" class="btn">查看全部宏包 →</a>
+    </div>
+  </div>
+</section>
+
+<section class="section section-alt">
+  <div class="container">
+    <h2>新手入门</h2>
+    <div class="feature-grid">
+      <div class="feature">
+        <h3>📥 免费下载</h3>
+        <p>基础宏完全免费，下载即可使用</p>
+      </div>
+      <div class="feature">
+        <h3>⚔️ 职业全覆盖</h3>
+        <p>战士、法师、牧师……全职业专精宏包</p>
+      </div>
+      <div class="feature">
+        <h3>🎓 编写教程</h3>
+        <p>从零开始学习宏语法，自己也能写</p>
+      </div>
+    </div>
+  </div>
+</section>
+{{ end }}

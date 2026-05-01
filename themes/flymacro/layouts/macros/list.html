@@ -1,0 +1,26 @@
+{{ define "main" }}
+<div class="container page-list">
+  <h1>宏库</h1>
+
+  <div class="filters">
+    <a href="/macros/" class="filter-btn active">全部</a>
+    <a href="/types/free/" class="filter-btn">免费</a>
+    <a href="/types/premium/" class="filter-btn">付费</a>
+  </div>
+
+  <div class="taxonomy-cloud">
+    <h3>按职业筛选</h3>
+    <div class="tag-cloud">
+      {{ range .Site.Taxonomies.classes }}
+      <a href="{{ .Page.RelPermalink }}" class="tag-link">{{ .Page.Title }}</a>
+      {{ end }}
+    </div>
+  </div>
+
+  <div class="macro-grid">
+    {{ range .Pages }}
+      {{ partial "macro-card.html" . }}
+    {{ end }}
+  </div>
+</div>
+{{ end }}

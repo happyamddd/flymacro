@@ -1,0 +1,38 @@
+baseURL = 'https://flymacro.pages.dev'
+languageCode = 'zh-CN'
+title = 'FlyMacro - 魔兽世界宏库'
+theme = 'flymacro'
+
+[taxonomies]
+  class = 'classes'
+  spec = 'specs'
+  version = 'versions'
+  type = 'types'
+
+[params]
+  description = '魔兽世界合法UI宏、插件下载站'
+  author = 'FlyMacro'
+
+[menu]
+  [[menu.main]]
+    name = '首页'
+    url = '/'
+    weight = 10
+  [[menu.main]]
+    name = '宏库'
+    url = '/macros/'
+    weight = 20
+  [[menu.main]]
+    name = '教程'
+    url = '/guide/'
+    weight = 30
+  [[menu.main]]
+    name = '关于'
+    url = '/about/'
+    weight = 40
+
+[languages]
+  [languages.zh]
+    languageName = '简体中文'
+    weight = 1
+    contentDir = 'content/zh'

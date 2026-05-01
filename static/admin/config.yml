@@ -1,0 +1,188 @@
+# Decap CMS 配置
+# 使用说明：
+# 1. 在 netlify.com 注册免费账号
+# 2. 创建一个站点（可以只连接 GitHub 仓库，不需要真正部署）
+# 3. 在站点设置中开启 Identity → Enable Identity
+# 4. 在 Identity → Settings → Git Gateway 中启用 Git Gateway
+# 5. 复制 Git Gateway 的 API 地址，替换下方的 site_domain
+
+backend:
+  name: git-gateway
+  branch: main
+  # 后续替换为 Netlify Identity 给你的 site_domain
+  # 例如: site_domain: flymacro-xxx.netlify.app
+
+media_folder: static/images
+public_folder: /images
+
+# 允许上传的文件类型
+slug:
+  encoding: unicode
+  clean_accents: false
+  sanitize_replacement: "-"
+
+collections:
+  - name: macros
+    label: 宏包
+    label_singular: 宏包
+    folder: content/zh/macros
+    path: "{{type}}/{{slug}}"
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - label: 标题
+        name: title
+        widget: string
+        required: true
+      - label: 发布日期
+        name: date
+        widget: datetime
+        date_format: YYYY-MM-DD
+        time_format: HH:mm
+        format: YYYY-MM-DDTHH:mm:ssZ
+        default: ""
+      - label: 草稿
+        name: draft
+        widget: boolean
+        default: false
+      - label: 职业
+        name: classes
+        widget: select
+        multiple: true
+        options:
+          - { label: 战士, value: warrior }
+          - { label: 圣骑士, value: paladin }
+          - { label: 猎人, value: hunter }
+          - { label: 潜行者, value: rogue }
+          - { label: 牧师, value: priest }
+          - { label: 萨满, value: shaman }
+          - { label: 法师, value: mage }
+          - { label: 术士, value: warlock }
+          - { label: 武僧, value: monk }
+          - { label: 德鲁伊, value: druid }
+          - { label: 恶魔猎手, value: demonhunter }
+          - { label: 死亡骑士, value: deathknight }
+          - { label: 唤魔师, value: evoker }
+      - label: 专精
+        name: specs
+        widget: list
+        field:
+          label: 专精名称
+          name: spec
+          widget: string
+      - label: 版本
+        name: versions
+        widget: list
+        field:
+          label: 版本号
+          name: version
+          widget: string
+      - label: 类型
+        name: type
+        widget: select
+        options:
+          - { label: 免费, value: free }
+          - { label: 付费, value: premium }
+        default: free
+      - label: 预览图
+        name: preview_img
+        widget: image
+        required: false
+      - label: 演示视频链接
+        name: demo_video
+        widget: string
+        required: false
+      - label: 下载文件（仅免费宏）
+        name: download_file
+        widget: file
+        required: false
+        hint: "上传 ZIP 或其他脚本文件"
+      - label: 型号与定价（仅付费宏）
+        name: models
+        widget: list
+        required: false
+        fields:
+          - label: 型号名称
+            name: name
+            widget: string
+          - label: 价格
+            name: price
+            widget: string
+            hint: "如：¥19"
+          - label: 功能列表
+            name: features
+            widget: list
+            field:
+              label: 功能
+              name: feature
+              widget: string
+          - label: 国内购买链接
+            name: buy_cn
+            widget: string
+            required: false
+          - label: 海外购买链接
+            name: buy_global
+            widget: string
+            required: false
+      - label: 详细介绍
+        name: body
+        widget: markdown
+
+  - name: pages
+    label: 独立页面
+    label_singular: 页面
+    folder: content/zh/pages
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - label: 标题
+        name: title
+        widget: string
+      - label: 描述
+        name: description
+        widget: string
+        required: false
+      - label: 内容
+        name: body
+        widget: markdown
+
+  - name: guide
+    label: 教程
+    label_singular: 教程文章
+    folder: content/zh/guide
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - label: 标题
+        name: title
+        widget: string
+      - label: 发布日期
+        name: date
+        widget: datetime
+        default: ""
+      - label: 权重
+        name: weight
+        widget: number
+        default: 0
+        hint: "数字越小排序越靠前"
+      - label: 内容
+        name: body
+        widget: markdown
+
+  - name: blog
+    label: 公告
+    label_singular: 公告文章
+    folder: content/zh/blog
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - label: 标题
+        name: title
+        widget: string
+      - label: 发布日期
+        name: date
+        widget: datetime
+        default: ""
+      - label: 内容
+        name: body
+        widget: markdown

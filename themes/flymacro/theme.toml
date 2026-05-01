@@ -1,0 +1,8 @@
+name = "FlyMacro"
+license = "MIT"
+licenselink = ""
+description = "Clean theme for FlyMacro WoW macro download site"
+homepage = ""
+tags = ["docs", "blog", "multilingual"]
+features = ["responsive", "multilingual", "taxonomies"]
+min_version = "0.140.0"

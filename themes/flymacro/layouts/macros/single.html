@@ -1,0 +1,63 @@
+{{ define "main" }}
+<div class="container page-single">
+  <article class="macro-detail">
+    <header class="detail-header">
+      <h1>{{ .Title }}</h1>
+      <div class="detail-meta">
+        {{ range .Params.classes }}<span class="tag class">{{ . }}</span>{{ end }}
+        {{ range .Params.specs }}<span class="tag spec">{{ . }}</span>{{ end }}
+        {{ range .Params.versions }}<span class="tag version">{{ . }}</span>{{ end }}
+        <span class="tag type type-{{ .Params.type }}">{{ if eq .Params.type "free" }}免费{{ else }}付费{{ end }}</span>
+      </div>
+    </header>
+
+    {{ if .Params.preview_img }}
+    <div class="detail-preview">
+      <img src="{{ .Params.preview_img }}" alt="{{ .Title }}">
+    </div>
+    {{ end }}
+
+    <div class="detail-content">
+      {{ .Content }}
+    </div>
+
+    {{ if eq .Params.type "free" }}
+      {{ if .Params.download_file }}
+      <div class="download-area">
+        <a href="{{ .Params.download_file }}" class="btn btn-download" download>
+          ⬇️ 免费下载
+        </a>
+        <p class="hint">下载后解压到 Interface/AddOns 目录，游戏中输入 /reload 即可使用</p>
+      </div>
+      {{ end }}
+    {{ else }}
+      <div class="purchase-area">
+        <h3>选择型号</h3>
+        <div class="models">
+          {{ range .Params.models }}
+          <div class="model-card">
+            <div class="model-header">
+              <h4>{{ .name }}</h4>
+              <span class="model-price">{{ .price }}</span>
+            </div>
+            <ul class="model-features">
+              {{ range .features }}
+              <li>{{ . }}</li>
+              {{ end }}
+            </ul>
+            <div class="model-actions">
+              {{ if .buy_cn }}
+              <a href="{{ .buy_cn }}" class="btn btn-buy-cn" target="_blank">国内购买（微信/支付宝）</a>
+              {{ end }}
+              {{ if .buy_global }}
+              <a href="{{ .buy_global }}" class="btn btn-buy-global" target="_blank">海外购买</a>
+              {{ end }}
+            </div>
+          </div>
+          {{ end }}
+        </div>
+      </div>
+    {{ end }}
+  </article>
+</div>
+{{ end }}

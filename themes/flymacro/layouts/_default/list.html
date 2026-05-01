@@ -1,0 +1,15 @@
+{{ define "main" }}
+<div class="container page-list">
+  <h1>{{ .Title }}</h1>
+  {{ if .Content }}
+  <div class="page-content">
+    {{ .Content }}
+  </div>
+  {{ end }}
+  <div class="macro-grid">
+    {{ range .Pages }}
+      {{ partial "macro-card.html" . }}
+    {{ end }}
+  </div>
+</div>
+{{ end }}

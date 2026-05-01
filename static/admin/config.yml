@@ -9,7 +9,7 @@
 backend:
   name: git-gateway
   branch: main
-  site_domain: splendid-valkyrie-76a467.netlify.app
+  base_url: https://splendid-valkyrie-76a467.netlify.app
 
 media_folder: static/images
 public_folder: /images

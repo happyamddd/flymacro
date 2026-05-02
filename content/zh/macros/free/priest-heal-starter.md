@@ -10,7 +10,7 @@ specs:
 versions:
   - "10.2"
 type: free
-preview_img: "/images/priest-heal-preview.jpg"
+preview_img: "/images/priest-heal-preview.svg"
 download_file: "/downloads/priest-heal-starter.zip"
 ---
 

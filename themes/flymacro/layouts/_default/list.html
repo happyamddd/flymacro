@@ -2,14 +2,26 @@
 <div class="container page-list">
   <h1>{{ .Title }}</h1>
   {{ if .Content }}
-  <div class="page-content">
-    {{ .Content }}
-  </div>
+  <div class="page-content">{{ .Content | plainify }}</div>
   {{ end }}
+  {{ if .Pages }}
   <div class="macro-grid">
     {{ range .Pages }}
-      {{ partial "macro-card.html" . }}
+      {{ if eq .Type "macros" }}
+        {{ partial "macro-card.html" . }}
+      {{ else }}
+        <article class="macro-card" data-type="free">
+          <div class="card-body">
+            <div class="meta">
+              {{ with .Date }}<span class="tag version">{{ .Format "2006-01-02" }}</span>{{ end }}
+            </div>
+            <h3><a href="{{ .RelPermalink }}">{{ .Title }}</a></h3>
+            <p class="summary">{{ .Summary | plainify | truncate 100 }}</p>
+          </div>
+        </article>
+      {{ end }}
     {{ end }}
   </div>
+  {{ end }}
 </div>
 {{ end }}

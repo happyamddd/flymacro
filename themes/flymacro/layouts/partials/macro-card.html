@@ -1,17 +1,73 @@
-<article class="macro-card">
+{{ $classNames := dict
+  "deathknight" "死亡骑士"
+  "demonhunter" "恶魔猎手"
+  "druid" "德鲁伊"
+  "evoker" "唤魔师"
+  "hunter" "猎人"
+  "mage" "法师"
+  "monk" "武僧"
+  "paladin" "圣骑士"
+  "priest" "牧师"
+  "rogue" "潜行者"
+  "shaman" "萨满"
+  "warlock" "术士"
+  "warrior" "战士" }}
+{{ $specNames := dict
+  "blood" "鲜血"
+  "frost" "冰霜"
+  "unholy" "邪恶"
+  "havoc" "浩劫"
+  "vengeance" "复仇"
+  "balance" "平衡"
+  "feral" "野性"
+  "guardian" "守护"
+  "restoration" "恢复"
+  "devastation" "湮灭"
+  "preservation" "恩护"
+  "augmentation" "增辉"
+  "beastmastery" "兽王"
+  "marksmanship" "射击"
+  "survival" "生存"
+  "arcane" "奥术"
+  "fire" "火焰"
+  "brewmaster" "酒仙"
+  "mistweaver" "织雾"
+  "windwalker" "踏风"
+  "holy" "神圣"
+  "protection" "防护"
+  "retribution" "惩戒"
+  "discipline" "戒律"
+  "shadow" "暗影"
+  "assassination" "刺杀"
+  "outlaw" "狂徒"
+  "subtlety" "敏锐"
+  "elemental" "元素"
+  "enhancement" "增强"
+  "affliction" "痛苦"
+  "demonology" "恶魔学识"
+  "destruction" "毁灭"
+  "arms" "武器"
+  "fury" "狂怒" }}
+<article class="macro-card" data-type="{{ .Params.type }}">
   {{ if .Params.preview_img }}
   <div class="card-img">
-    <img src="{{ .Params.preview_img }}" alt="{{ .Title }}">
+    <img src="{{ .Params.preview_img }}" alt="{{ .Title }}" loading="lazy">
   </div>
   {{ end }}
   <div class="card-body">
-    <h3><a href="{{ .RelPermalink }}">{{ .Title }}</a></h3>
     <div class="meta">
-      {{ range .Params.classes }}<span class="tag class">{{ . }}</span>{{ end }}
-      {{ range .Params.specs }}<span class="tag spec">{{ . }}</span>{{ end }}
-      {{ range .Params.versions }}<span class="tag version">{{ . }}</span>{{ end }}
-      <span class="tag type type-{{ .Params.type }}">{{ if eq .Params.type "free" }}免费{{ else }}付费{{ end }}</span>
+      {{ range .Params.classes }}
+        <span class="tag class" data-class="{{ . }}">{{ index $classNames . | default . }}</span>
+      {{ end }}
+      {{ range .Params.specs }}
+        <span class="tag spec">{{ index $specNames . | default . }}</span>
+      {{ end }}
+      {{ range .Params.versions }}
+        <span class="tag version">v{{ . }}</span>
+      {{ end }}
+      <span class="tag type-{{ .Params.type }}">{{ if eq .Params.type "free" }}免费{{ else }}付费{{ end }}</span>
     </div>
-    <p class="summary">{{ .Summary | default (substr .Content 0 80) }}...</p>
+    <h3><a href="{{ .RelPermalink }}">{{ .Title }}</a></h3>
+    <p class="summary">{{ .Summary | plainify | truncate 100 }}</p>
   </div>
 </article>

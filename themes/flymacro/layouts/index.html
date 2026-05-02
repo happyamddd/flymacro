@@ -1,44 +1,104 @@
 {{ define "main" }}
 <section class="hero">
   <div class="container">
-    <h1>{{ .Site.Params.home_title | default "为你的冒险找到最佳宏" }}</h1>
-    <p class="lead">{{ .Site.Params.description }}</p>
+    <h1>{{ .Site.Params.home_title | default "为你的冒险而生" }}</h1>
+    <p class="lead">{{ .Site.Params.description | default "合法 UI 宏与插件 · 全职业覆盖 · 实战调优" }}</p>
     <div class="hero-actions">
-      <a href="/macros/" class="btn btn-primary">浏览宏库</a>
-      <a href="/guide/" class="btn btn-secondary">学习编写</a>
+      <a href="{{ "/macros/" | relLangURL }}" class="btn btn-primary">进入宏库</a>
+      <a href="{{ "/guide/" | relLangURL }}" class="btn">学习编写</a>
     </div>
   </div>
 </section>
 
 <section class="section">
   <div class="container">
-    <h2>热门宏包</h2>
+    <h2>精选宏包</h2>
+    <div class="section-divider" aria-hidden="true">
+      <img src="/images/ornaments/gem-divider.svg" alt="">
+    </div>
     <div class="macro-grid">
-      {{ range first 6 (where .Site.RegularPages "Type" "macros") }}
+      {{ range first 6 (where .Site.RegularPages "Section" "macros") }}
         {{ partial "macro-card.html" . }}
       {{ end }}
     </div>
     <div class="section-footer">
-      <a href="/macros/" class="btn">查看全部宏包 →</a>
+      <a href="{{ "/macros/" | relLangURL }}" class="btn">查看全部宏包</a>
     </div>
   </div>
 </section>
 
 <section class="section section-alt">
   <div class="container">
+    <h2>按职业浏览</h2>
+    <div class="section-divider" aria-hidden="true">
+      <img src="/images/ornaments/gem-divider.svg" alt="">
+    </div>
+    {{ $classNames := dict
+      "deathknight" "死亡骑士"
+      "demonhunter" "恶魔猎手"
+      "druid" "德鲁伊"
+      "evoker" "唤魔师"
+      "hunter" "猎人"
+      "mage" "法师"
+      "monk" "武僧"
+      "paladin" "圣骑士"
+      "priest" "牧师"
+      "rogue" "潜行者"
+      "shaman" "萨满"
+      "warlock" "术士"
+      "warrior" "战士" }}
+    <div class="class-panel">
+      {{ range $slug, $name := $classNames }}
+        {{ $count := 0 }}
+        {{ with index $.Site.Taxonomies.classes $slug }}
+          {{ $count = len . }}
+        {{ end }}
+        <a href="{{ printf "/classes/%s/" $slug | relLangURL }}" class="class-tile class-{{ $slug }}">
+          <span class="class-crest" aria-hidden="true">
+            {{ readFile (printf "static/images/classes/%s.svg" $slug) | safeHTML }}
+          </span>
+          <span class="class-name">{{ $name }}</span>
+          <span class="class-count">{{ $count }} 个宏包</span>
+        </a>
+      {{ end }}
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
     <h2>新手入门</h2>
+    <div class="section-divider" aria-hidden="true">
+      <img src="/images/ornaments/gem-divider.svg" alt="">
+    </div>
     <div class="feature-grid">
       <div class="feature">
-        <h3>📥 免费下载</h3>
-        <p>基础宏完全免费，下载即可使用</p>
+        <div class="feature-icon" aria-hidden="true">
+          <img src="/images/icons/scroll.svg" alt="">
+        </div>
+        <h3>免费下载</h3>
+        <p>基础宏完全免费,下载即可启用,从此告别繁杂操作。</p>
       </div>
       <div class="feature">
-        <h3>⚔️ 职业全覆盖</h3>
-        <p>战士、法师、牧师……全职业专精宏包</p>
+        <div class="feature-icon" aria-hidden="true">
+          <img src="/images/icons/swords.svg" alt="">
+        </div>
+        <h3>全职业覆盖</h3>
+        <p>13 个职业 38 个专精,从战士到唤魔师,每个英雄都有专属宏包。</p>
       </div>
       <div class="feature">
-        <h3>🎓 编写教程</h3>
-        <p>从零开始学习宏语法，自己也能写</p>
+        <div class="feature-icon" aria-hidden="true">
+          <img src="/images/icons/dragon-eye.svg" alt="">
+        </div>
+        <h3>实战调优</h3>
+        <p>200+ 小时副本/竞技场实测,基于优先级判断,响应延迟 &lt;16ms。</p>
+      </div>
+      <div class="feature">
+        <div class="feature-icon" aria-hidden="true">
+          <img src="/images/icons/shield.svg" alt="">
+        </div>
+        <h3>合法合规</h3>
+        <p>仅基于暴雪官方 API 开发,不修改客户端,不会触发反作弊系统。</p>
       </div>
     </div>
   </div>

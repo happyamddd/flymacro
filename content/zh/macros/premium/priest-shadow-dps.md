@@ -9,7 +9,7 @@ specs:
 versions:
   - "10.2"
 type: premium
-preview_img: "/images/priest-shadow-preview.jpg"
+preview_img: "/images/priest-shadow-preview.svg"
 models:
   - name: "基础版"
     price: "¥19"

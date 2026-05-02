@@ -1,18 +1,36 @@
 {{ define "main" }}
 <div class="container page-list">
-  <h1>宏库</h1>
+  <h1>宏 库</h1>
+  {{ if .Content }}<div class="page-content">{{ .Content | plainify }}</div>{{ end }}
 
-  <div class="filters">
-    <a href="/macros/" class="filter-btn active">全部</a>
-    <a href="/types/free/" class="filter-btn">免费</a>
-    <a href="/types/premium/" class="filter-btn">付费</a>
+  <div class="filters" role="tablist" aria-label="按品质筛选">
+    <a href="{{ "/macros/" | relLangURL }}" class="filter-btn active">全部宏包</a>
+    <a href="{{ "/types/free/" | relLangURL }}" class="filter-btn">免费</a>
+    <a href="{{ "/types/premium/" | relLangURL }}" class="filter-btn">付费</a>
   </div>
+
+  {{ $classNames := dict
+    "deathknight" "死亡骑士"
+    "demonhunter" "恶魔猎手"
+    "druid" "德鲁伊"
+    "evoker" "唤魔师"
+    "hunter" "猎人"
+    "mage" "法师"
+    "monk" "武僧"
+    "paladin" "圣骑士"
+    "priest" "牧师"
+    "rogue" "潜行者"
+    "shaman" "萨满"
+    "warlock" "术士"
+    "warrior" "战士" }}
 
   <div class="taxonomy-cloud">
     <h3>按职业筛选</h3>
     <div class="tag-cloud">
-      {{ range .Site.Taxonomies.classes }}
-      <a href="{{ .Page.RelPermalink }}" class="tag-link">{{ .Page.Title }}</a>
+      {{ range $slug, $name := $classNames }}
+        {{ if index $.Site.Taxonomies.classes $slug }}
+        <a href="{{ printf "/classes/%s/" $slug | relLangURL }}" class="tag-link">{{ $name }}</a>
+        {{ end }}
       {{ end }}
     </div>
   </div>

@@ -1,8 +1,125 @@
 {{ define "main" }}
+{{ $classNames := dict
+  "deathknight" "死亡骑士"
+  "demonhunter" "恶魔猎手"
+  "druid" "德鲁伊"
+  "evoker" "唤魔师"
+  "hunter" "猎人"
+  "mage" "法师"
+  "monk" "武僧"
+  "paladin" "圣骑士"
+  "priest" "牧师"
+  "rogue" "潜行者"
+  "shaman" "萨满"
+  "warlock" "术士"
+  "warrior" "战士" }}
+{{ $specNames := dict
+  "blood" "鲜血"
+  "frost" "冰霜"
+  "unholy" "邪恶"
+  "havoc" "浩劫"
+  "vengeance" "复仇"
+  "balance" "平衡"
+  "feral" "野性"
+  "guardian" "守护"
+  "restoration" "恢复"
+  "devastation" "湮灭"
+  "preservation" "恩护"
+  "augmentation" "增辉"
+  "beastmastery" "兽王"
+  "marksmanship" "射击"
+  "survival" "生存"
+  "arcane" "奥术"
+  "fire" "火焰"
+  "brewmaster" "酒仙"
+  "mistweaver" "织雾"
+  "windwalker" "踏风"
+  "holy" "神圣"
+  "protection" "防护"
+  "retribution" "惩戒"
+  "discipline" "戒律"
+  "shadow" "暗影"
+  "assassination" "刺杀"
+  "outlaw" "狂徒"
+  "subtlety" "敏锐"
+  "elemental" "元素"
+  "enhancement" "增强"
+  "affliction" "痛苦"
+  "demonology" "恶魔学识"
+  "destruction" "毁灭"
+  "arms" "武器"
+  "fury" "狂怒" }}
+{{ $isMacro := or (eq .Params.type "free") (eq .Params.type "premium") }}
 <div class="container page-single">
-  <article>
-    <h1>{{ .Title }}</h1>
-    {{ .Content }}
+  <article class="macro-detail" data-type="{{ .Params.type }}">
+    <header class="detail-header">
+      <h1>{{ .Title }}</h1>
+      <div class="detail-meta">
+        {{ if $isMacro }}
+          {{ range .Params.classes }}
+            <span class="tag class" data-class="{{ . }}">{{ index $classNames . | default . }}</span>
+          {{ end }}
+          {{ range .Params.specs }}
+            <span class="tag spec">{{ index $specNames . | default . }}</span>
+          {{ end }}
+          {{ range .Params.versions }}
+            <span class="tag version">v{{ . }}</span>
+          {{ end }}
+          <span class="tag type-{{ .Params.type }}">{{ if eq .Params.type "free" }}免费{{ else }}付费{{ end }}</span>
+        {{ else }}
+          {{ with .Date }}<span class="tag version">{{ .Format "2006年01月02日" }}</span>{{ end }}
+        {{ end }}
+      </div>
+    </header>
+
+    {{ if and $isMacro .Params.preview_img }}
+    <div class="detail-preview">
+      <img src="{{ .Params.preview_img }}" alt="{{ .Title }}" loading="lazy">
+    </div>
+    {{ end }}
+
+    <div class="detail-content">
+      {{ .Content }}
+    </div>
+
+    {{ if $isMacro }}
+      {{ if eq .Params.type "free" }}
+        {{ if .Params.download_file }}
+        <div class="download-area">
+          <a href="{{ .Params.download_file }}" class="btn btn-download" download>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            免费下载
+          </a>
+          <p class="hint">下载后解压到 Interface/AddOns 目录,游戏中输入 /reload 即可使用</p>
+        </div>
+        {{ end }}
+      {{ else if eq .Params.type "premium" }}
+        <div class="purchase-area">
+          <h3>选择型号</h3>
+          <div class="models">
+            {{ range .Params.models }}
+            <div class="model-card">
+              <div class="model-header">
+                <h4>{{ .name }}</h4>
+                <span class="model-price">{{ .price }}</span>
+              </div>
+              <ul class="model-features">
+                {{ range .features }}<li>{{ . }}</li>{{ end }}
+              </ul>
+              <div class="model-actions">
+                {{ if .buy_cn }}
+                <a href="{{ .buy_cn }}" class="btn btn-buy-cn" target="_blank" rel="noopener">国内购买（微信/支付宝）</a>
+                {{ end }}
+                {{ if .buy_global }}
+                <a href="{{ .buy_global }}" class="btn btn-buy-global" target="_blank" rel="noopener">海外购买</a>
+                {{ end }}
+              </div>
+            </div>
+            {{ end }}
+          </div>
+        </div>
+      {{ end }}
+    {{ end }}
   </article>
 </div>
 {{ end }}
